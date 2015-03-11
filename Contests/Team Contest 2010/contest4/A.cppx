@@ -1,0 +1,68 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+
+#define fo(i,n) for(int i=0; i<n; i++)
+#define foo(i,m,n) for(int i=m; i<n; i++)
+#define foe(i,m,n) for(int i=m; i<=n; i++)
+#define SZ(a) a.size()
+#define be(n) n.begin(),n.end()
+#define rbe(n) n.rbegin(),n.rend()
+#define mp(a,b) make_pair(a,b)
+#define pii pair<int,int>
+#define vi vector<int>
+#define vs vector<string>
+#define sstr stringstream
+typedef long long ll;
+using namespace std;
+
+vector<pair<double, double> > v;
+
+void calc() {
+	double dist = 0, cons = 0;
+	foo(i,1,v.size()) {
+		if (v[i].second > v[i - 1].second)
+			continue;
+
+		cons += v[i-1].second - v[i].second;
+		dist += v[i].first - v[i - 1].first;
+	}
+
+	cout << round(v.back().second * dist / cons) << endl;
+}
+int main() {
+
+	freopen("A.in","r",stdin);
+
+
+	double a, b;
+	while (cin >> a >> b) {
+		if (a + 1.0 < 1e-9 && b + 1.0 < 1e-9)
+			return 0;
+		if (a < 1e-9 && b < 1e-9) {
+			calc();
+			v.clear();
+			continue;
+		}
+
+		v.push_back(mp(a,b));
+	}
+	return 0;
+}

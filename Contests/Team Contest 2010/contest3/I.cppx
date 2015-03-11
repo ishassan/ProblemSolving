@@ -1,0 +1,79 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+
+#define fo(i,n) for(int i=0; i<n; i++)
+#define foo(i,m,n) for(int i=m; i<n; i++)
+#define foe(i,m,n) for(int i=m; i<=n; i++)
+#define SZ(a) a.size()
+#define be(n) n.begin(),n.end()
+#define rbe(n) n.rbegin(),n.rend()
+#define mp(a,b) make_pair(a,b)
+#define pii pair<int,int>
+#define vi vector<int>
+#define vs vector<string>
+#define sstr stringstream
+typedef long long ll;
+using namespace std;
+
+const int OO=(1<<27);
+int arr[204],N,S,T,memo[201][204];
+int dp (int ind ,int t)
+{
+	if(t==T && ind>N) return 0;
+	if(t>T) return (-OO);
+	if(ind>N) return (-OO);
+	if(memo[ind][t]!=(-OO)) return memo[ind][t];
+	int res=(-OO);
+	for(int i=1;i<=S;++i)
+	{
+		res=max(res,dp(ind+i,t+1)+arr[ind]);
+	}
+	return memo[ind][t]=res;
+}
+int main() {
+
+	freopen("ripoff.in", "r", stdin);
+	while(cin>>N && N)
+	{
+		cin>>S>>T;
+		for(int i=1;i<=N;++i)cin>>arr[i];
+
+		fo(i,201)
+			fo(j,204)
+				memo[i][j] = -OO;
+
+
+		int res=(-OO);
+		for(int i=1;i<=S;++i)
+		{
+			// clear
+			res=max(res,dp(i,1));
+		}
+		cout<<((T!=0)?res :0)<<endl;
+
+
+	}
+
+
+
+
+	return 0;
+}

@@ -1,0 +1,80 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+
+#define fo(i,n) for(int i=0; i<n; i++)
+#define foo(i,m,n) for(int i=m; i<n; i++)
+#define foe(i,m,n) for(int i=m; i<=n; i++)
+#define sz(a) ((int)(a).size())
+#define be(n) n.begin(),n.end()
+#define rbe(n) n.rbegin(),n.rend()
+#define mp(a,b) make_pair(a,b)
+#define pii pair<int,int>
+#define vi vector<int>
+#define vs vector<string>
+#define sstr stringstream
+typedef long long ll;
+using namespace std;
+
+int main() {
+
+	freopen("crosses.in","rt",stdin);
+	string a;
+	while(cin>>a)
+	{
+		int c = 0;
+		int m =0;
+		for(int i = 0 ; i < sz(a) ; i++)
+			if(a[i]=='x')c++;
+		int lst = -2;
+		for(int i = 0 ; i < sz(a)-2 ; i++)
+		{
+			bool f =1 ;
+			for(int j = 0 ; j < 3 ; j ++)
+				if(a[i+j]!='x')
+					f= 0;
+			if(f)
+			{
+				if(lst!=i-1)
+					m++;
+				lst = i;
+
+			}
+		}
+		for(int i = 0 ; i < sz(a)-5 ; i++)
+		{
+			bool f = 1;
+			for(int j = 0 ; j < 6 ; j ++)
+				if(a[i+j]!='x')
+					f= 0;
+			if(f)
+				m++;
+		}
+		if(m==0)
+			cout<<"Nobody\n";
+		else if(m>1)
+			cout<<"Invalid\n";
+		else
+			if(c%2)cout<<"First\n";
+			else cout<<"Second\n";
+	}
+
+	return 0;
+}

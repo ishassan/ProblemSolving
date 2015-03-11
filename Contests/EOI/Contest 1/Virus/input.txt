@@ -1,0 +1,19 @@
+C:\Program Files\CE Remote Tools\5.01\bin\ccconnect.dll
+
+C:\Program Files\CE Remote Tools\5.01\bin\ccfilevw.inv
+
+C:\Program Files\CE Remote Tools\5.01\bin\ccheapwk.exe
+
+C:\Program Files\CE Remote Tools\5.01\bin\ccpview.shf
+
+C:\Program Files\CE Remote Tools\coreappschk.in
+
+C:\Program Files\CE Remote Tools\CorePak.shf
+
+C:\Program Files\CE Remote Tools\DBCDERR.LOG
+
+C:\Program Files\CE Remote Tools\DELETE.inv
+
+C:\ABc\ED\XX.exe
+
+C:\ANC\AAMASKDASDK\ADJKH\x.inv

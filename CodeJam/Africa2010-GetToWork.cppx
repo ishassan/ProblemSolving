@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <math.h>
+#include <algorithm>
+#include <functional>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <map>
+using namespace std;
+
+#define fo(i,n) for(int i=0;i<(n);++i)
+#define foo(i,m,n) for(int i=(m);i<(n);++i)
+
+typedef vector<int> vi ;
+typedef vector<string> vs ;
+typedef vector<double> vd ;
+typedef stringstream sstr;
+
+bool cmp(int a,int b){
+	if(a>b)
+		return 1;
+	return 0;
+}
+int main(){
+
+	freopen("in.in","r",stdin);
+	freopen("out.out","w",stdout);
+
+	int tst,inp1,inp2;
+	scanf("%d",&tst);
+	fo(t,tst){
+		bool fail=0;
+		printf("Case #%d: ",t+1);
+		int n,d,e;
+		scanf("%d %d",&n,&d);
+		scanf("%d",&e);
+		vector<vector<int> > lst(103);
+		int towns[103]={0};
+		fo(i,e){
+			scanf("%d %d",&inp1,&inp2);
+			if(inp1 != d)
+				lst[inp1].push_back(inp2);
+		}
+
+		for(int i=1; i<=n; i++)
+			sort(lst[i].begin(), lst[i].end(),cmp);
+
+		for(int i=1; i<=n; i++){
+			if(i==d)
+				continue;
+			int sz = lst[i].size();
+			int count=0;
+			fo(j,sz){
+
+				towns[i] += lst[i][j],count++;
+				if(towns[i] >= sz)
+					break;
+			}
+
+			if(towns[i] < sz){
+				printf("IMPOSSIBLE\n");
+				fail =1;
+				break;
+			}
+
+			towns[i] =count;
+		}
+		if(fail)
+			continue;
+
+		for(int i=1; i<=n; i++)
+			printf("%d ",towns[i]);
+
+		cout<<endl;
+
+	}
+	return 0;
+}

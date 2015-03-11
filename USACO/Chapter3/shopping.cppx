@@ -1,0 +1,131 @@
+/*
+ ID: tito_911
+ PROG: shopping
+ LANG: C++
+ */
+/*
+ *	E-Mail : khaled.samy@fci-cu.edu.eg
+ *	TopCoder Handle : Khaled91
+ *	Another buggy code by Khaled Samy ;)
+ */
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <bitset>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+#include <valarray>
+using namespace std;
+#define PB                      push_back
+#define MP                      make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define SZ(v)					(int)v.size()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n) 		        for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<double> vd;
+typedef vector<vi> vvi;
+typedef vector<vd> vvd;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+const int OO = (int) 1e9;
+const double PI = 2 * acos(0);
+const double EPS = 1e-9;
+
+int dcmp(double a, double b) {
+	return fabs(a - b) <= EPS ? 0 : a > b ? 1 : 2;
+}
+
+int DI[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+int DJ[] = { 0, 1, 0, -1, 1, -1, 1, -1 };
+
+int id[1000];
+vector<valarray<int> > offers;
+vi prices;
+valarray<int> pw(5);
+int dp[6 * 6 * 6 * 6 * 6];
+
+int C(valarray<int> target) {
+	if (target.min() < 0)
+		return OO;
+	if (target.max() == 0)
+		return 0;
+
+	int x = (target * pw).sum();
+
+	if (dp[x] != -1)
+		return dp[x];
+
+	int ret = OO;
+
+	loop(i,SZ(offers)) {
+		valarray<int> tmp = target - offers[i];
+		ret = min(ret, C(tmp) + prices[i]);
+	}
+	return dp[x] = ret;
+}
+int main() {
+
+	freopen("shopping.in", "rt", stdin);
+	freopen("shopping.out", "wt", stdout);
+	CLR(id,-1);
+	int nOf;
+	int cnt = 0;
+	scanf("%d", &nOf);
+	loop(i,nOf) {
+		int nIt;
+		scanf("%d", &nIt);
+		valarray<int> offer(5);
+		loop(j,nIt) {
+			int itm, qty;
+			scanf("%d%d", &itm, &qty);
+			if (id[itm] == -1)
+				id[itm] = cnt++;
+			itm = id[itm];
+			offer[itm] = qty;
+		}
+		offers.PB(offer);
+		int price;
+		scanf("%d", &price);
+		prices.PB(price);
+	}
+	valarray<int> req(5);
+	int nReq;
+	scanf("%d", &nReq);
+	int itm, q, p;
+	loop(k,nReq) {
+		valarray<int> offer(5);
+		scanf("%d%d%d", &itm, &q, &p);
+		if (id[itm] == -1)
+			id[itm] = cnt++;
+		itm = id[itm];
+		offer[itm] = 1;
+		req[itm] = q;
+		offers.PB(offer);
+		prices.PB(p);
+		pw[k] = k ? pw[k - 1] * 6 : 1;
+	}
+	CLR(dp,-1);
+	cout << C(req) << endl;
+	return 0;
+}

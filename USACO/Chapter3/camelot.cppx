@@ -1,0 +1,120 @@
+/*
+ID: tito_911
+PROG: camelot
+LANG: C++
+/*
+ *	E-Mail : khaled.samy@fci-cu.edu.eg
+ *	TopCoder Handle : Khaled91
+ *	Another buggy code by Khaled Samy ;)
+ */
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <bitset>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+#include <valarray>
+using namespace std;
+#define PB                      push_back
+#define MP                      make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define SZ(v)					(int)v.size()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n) 		        for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<double> vd;
+typedef vector<vi> vvi;
+typedef vector<vd> vvd;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+const int OO = (int) 100000;
+const double PI = 2 * acos(0);
+const double EPS = 1e-9;
+
+int dcmp(double a, double b) {
+	return fabs(a - b) <= EPS ? 0 : a > b ? 1 : 2;
+}
+
+int NI[] = { 1, 2, -1, -2, -1, -2, 1, 2 };
+int NJ[] = { 2, 1, -2, -1, 2, 1, -2, -1 };
+
+int KI[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+int KJ[] = { 0, 1, 0, -1, 1, -1, 1, -1 };
+
+int R, C;
+void BFS(int di[], int dj[], valarray<int>&dist) {
+	int x = dist.min();
+	int src = -1;
+	loop(i,SZ(dist))
+		if (dist[i] == x) {
+			src = i;
+			break;
+		}
+	queue<int> q;
+	q.push(src);
+	valarray<bool> vis(SZ(dist));
+	while (!q.empty()) {
+		int cur = q.front();
+		q.pop();
+		int i = cur / C; //  uncompress
+		int j = cur % C;
+		loop(k,8) {
+			int ni = i + di[k];
+			int nj = j + dj[k];
+			if (ni < 0 || ni >= R || nj < 0 || nj >= C)
+				continue;
+			if (!vis[ni * C + nj]) // compress
+				q.push(ni * C + nj);
+			vis[ni * C + nj] = 1;
+			dist[ni * C + nj] = min(dist[ni * C + nj], dist[cur] + 1);
+		}
+	}
+}
+int main() {
+
+	freopen("camelot.in","rt",stdin);
+	freopen("camelot.out","wt",stdout);
+	scanf("%d%d", &R, &C);
+	valarray<int> king(R * C), tot(R * C), Nig(R * C), BestKing(R * C),
+			KingAndNig(R * C);
+	int i;
+	char j;
+	scanf(" %c %d", &j, &i);
+	king = OO;
+	king[(i - 1) * C + (j - 'A')] = 0;
+	BFS(KI, KJ, king);
+	BestKing = king;
+	while (scanf(" %c %d", &j, &i)!=EOF) {
+		Nig = OO;
+		Nig[(i - 1) * C + (j - 'A')] = 0;
+		BFS(NI, NJ, Nig);
+		tot += Nig;
+		KingAndNig = king + Nig;
+		BFS(NI, NJ, KingAndNig);
+		KingAndNig -= Nig;
+		BestKing[KingAndNig < BestKing] = KingAndNig[KingAndNig < BestKing];
+	}
+	tot += BestKing;
+	cout << tot.min() << endl; // 5od balak mn el OO be kam :D:D
+	return 0;
+}

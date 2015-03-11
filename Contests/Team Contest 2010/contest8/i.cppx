@@ -1,0 +1,76 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+
+#define fo(i,n) for(int i=0; i<n; i++)
+#define foo(i,m,n) for(int i=m; i<n; i++)
+#define foe(i,m,n) for(int i=m; i<=n; i++)
+#define sz(a) ((int)(a).size())
+#define be(n) n.begin(),n.end()
+#define rbe(n) n.rbegin(),n.rend()
+#define mp(a,b) make_pair(a,b)
+#define pii pair<int,int>
+#define vi vector<int>
+#define vs vector<string>
+#define sstr stringstream
+typedef long long ll;
+using namespace std;
+int a,b;
+int main() {
+	freopen("ichess.in","rt",stdin);
+	while(cin>>a>>b)
+	{
+		int k = min(a,b);
+		if(a==0 && b==0){
+					cout<<"Impossible\n";
+					continue;
+				}
+		int m=0;
+		for(int i = k ; i >=0 ; i --)
+		{
+			int j = sqrt(i*2);
+			if(j && ((j*j)==(i*2)))
+			{
+				m=(j*j)/2;
+				if(m<=max(a,b))
+				{
+					cout<<j<<endl;
+				    break;
+				}
+			}
+			j = sqrt((i*2)+1);
+			if((j*j==(i*2)+1))
+			{
+				m=(j*j)-i;
+				if(m<=max(a,b))
+				{
+				cout<<j<<endl;
+
+				break;
+				}
+			}
+
+		}
+
+
+
+	}
+	return 0;
+}

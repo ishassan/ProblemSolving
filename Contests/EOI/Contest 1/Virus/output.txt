@@ -1,0 +1,19 @@
+correct
+
+ren C:\Program Files\CE Remote Tools\5.01\bin\ccfilevw.inv C:\Program Files\CE Remote Tools\5.01\bin\wvelifcc.exe
+
+correct
+
+ren C:\Program Files\CE Remote Tools\5.01\bin\ccpview.shf C:\Program Files\CE Remote Tools\5.01\bin\wccpvie.dll
+
+correct
+
+ren C:\Program Files\CE Remote Tools\CorePak.shf C:\Program Files\CE Remote Tools\kCorePa.dll
+
+correct
+
+ren C:\Program Files\CE Remote Tools\DELETE.inv C:\Program Files\CE Remote Tools\ETELED.exe
+
+correct
+
+ren C:\ANC\AAMASKDASDK\ADJKH\x.inv C:\ANC\AAMASKDASDK\ADJKH\x.exe

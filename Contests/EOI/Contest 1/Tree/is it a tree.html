@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Is it a tree ?</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.2  (Linux)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="mRefaat ">
+	<META NAME="CHANGED" CONTENT="20100628;14534600">
+	<STYLE TYPE="text/css">
+	<!--
+		P.msonormal { margin-bottom: 0.14in; font-family: "Calibri", sans-serif; font-size: 11pt; line-height: 115% }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P CLASS="msonormal" ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT FACE="Arial-BoldMT"><FONT SIZE=4 STYLE="font-size: 16pt"><B>Is
+It A Tree?</B></FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>A
+tree is a well-known data structure that is either empty (null, void,
+nothing) or is a set of one or more nodes connected by directed edges
+between nodes satisfying the following properties.</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>1.
+There is exactly one node, called the root, to which no directed
+edges point.</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>2.
+Every node except the root has exactly one edge pointing to it.</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>3.
+There is a unique sequence of directed edges from the root to each
+node.</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>For
+example, consider the illustrations below, in which nodes are
+represented by circles and edges are represented by lines with
+arrowheads. The first two of these are trees, but the last is not.</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><BR>
+</P>
+
+<image src="tree.png"/>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>In
+this problem you will be given several descriptions of collections of
+nodes connected by directed edges. For each of these you are to
+determine if the collection satisfies the definition of a tree or
+not.</FONT></FONT></P>
+
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="TimesNewRomanPS-BoldMT"><FONT SIZE=4><B>Input</B></FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Input
+will consist of a sequence of edge descriptions <FONT FACE="CAAAAA+TimesNewRomanPSMT">followed
+by a pair of zeroes.</FONT></FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>.
+Each edge description will consist of a pair of integers; the first
+integer identifies the node from which the edge begins, and the
+second integer identifies the node to which the edge is directed. Any
+node available in a description should be mentioned at least once.
+The number of edges in a description is less than 1000.</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="TimesNewRomanPS-BoldMT"><FONT SIZE=4><B>Output</B></FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Display
+the line &quot;</FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=2>is
+a tree.</FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=3>&quot;
+or the line &quot;</FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=2>is
+not a tree.</FONT></FONT><FONT FACE="Times New Roman, serif"><FONT SIZE=3>&quot;</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="TimesNewRomanPS-BoldMT"><FONT SIZE=4><B>Sample
+Input / Output</B></FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2><B>Input:</B></FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>6
+8&nbsp;&nbsp; 5 3&nbsp;&nbsp; 5 2&nbsp;&nbsp; 6 4</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>5
+6&nbsp;&nbsp; 0 0</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>8
+1&nbsp;&nbsp; 7 3&nbsp;&nbsp; 6 2&nbsp;&nbsp; 8 9&nbsp;&nbsp; 7 5</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>7
+4&nbsp;&nbsp; 7 8&nbsp;&nbsp; 7 6&nbsp;&nbsp; 0 0</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>3
+8&nbsp;&nbsp; 6 8&nbsp;&nbsp; 6 4</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>5
+3&nbsp;&nbsp; 5 6&nbsp;&nbsp; 5 2&nbsp;&nbsp; 0 0</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="TimesNewRomanPSMT"><FONT SIZE=3><B>Output:</B></FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>is
+a tree.</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>is
+a tree.</FONT></FONT></P>
+<P CLASS="msonormal" STYLE="margin-bottom: 0in">&nbsp;</P>
+<P CLASS="msonormal" STYLE="line-height: 115%"><FONT FACE="CourierNewPSMT"><FONT SIZE=2>is
+not a tree.</FONT></FONT></P>
+</BODY>
+</HTML>

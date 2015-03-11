@@ -1,0 +1,98 @@
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <bitset>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+#include <valarray>
+#include <memory.h>
+using namespace std;
+#define PB                      push_back
+#define mp                     make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define SZ(v)					(int)v.size()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n) 		        for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<double> vd;
+typedef vector<vi> vvi;
+typedef vector<vd> vvd;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+vector<deque<pair<int, char> > > v;
+
+void right() {
+	int pos = v.size() - 1;
+	int nw = pos - 1;
+	if(pos==0) v.insert(v.begin(),deque< pair<int, char> >());
+	pos = v.size() - 1;
+	nw = pos - 1;
+	for (int i = 0; i <v[pos].size(); ++i) {
+		v[pos][i].second = (v[pos][i].second == 'D') ? 'U' : 'D';
+		v[nw].push_front(mp(v[pos][i].first,v[pos][i].second))	;
+	}
+	v.erase(v.end()-1);
+}
+
+void left() {
+	int pos = 0;
+		int nw = 1;
+		if(v.size()==1)if(pos==0) v.push_back(deque< pair<int, char> >());
+
+		for (int i = 0; i <v[pos].size(); ++i) {
+			v[pos][i].second = (v[pos][i].second == 'D') ? 'U' : 'D';
+			v[nw].push_front(mp(v[pos][i].first,v[pos][i].second))	;
+		}
+		v.erase(v.begin());
+}
+int main() {
+
+	freopen("D.in", "r", stdin);
+
+	int n, q, pos,tst=1;
+	while (cin >> n) {
+		if (n == 0)
+			return 0;
+
+		v.clear();
+		v.resize(n);
+		string str;
+		cin >> str;
+		for (int i = 0; i < n; ++i)
+			v[i].push_back(mp(i + 1, str[i]));
+
+		cin >> str >> q;
+		for(int i=0; i<str.size();++i)
+		{
+			if(str[i]=='R') right();
+			else left();
+		}
+		cout<<"Pile "<<tst++<<endl;
+		for (int i = 0; i < q; ++i) {
+			cin >> pos;
+			printf("Card %d is a face %s %d.\n",pos,(v[0][pos-1].second=='D')?"down":"up",v[0][pos-1].first);
+
+		}
+	}
+	return 0;
+}

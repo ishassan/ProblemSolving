@@ -1,0 +1,34 @@
+#include<iostream>
+#include<map>
+using namespace std;
+typedef long long ll;
+map<int, ll> m;
+ll coin(int n) {
+
+	if (n < 1)
+		return 0;
+
+	if (n == 1)
+		return 1;
+
+	if (m.find(n) != m.end())
+		return m[n];
+
+	ll c1 = n;
+
+	ll c2 = 0;
+
+	for (int i = 2; i < 5; i++)
+		if (n >= i)
+			c2 += coin(n / i);
+
+	return m[n] = max(c1, c2);
+}
+int main() {
+	ll n;
+	while (cin >> n) {
+		m.clear();
+		cout << coin(n) << endl;
+	}
+	return 0;
+}

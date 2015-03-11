@@ -1,0 +1,50 @@
+#include <iostream>
+#include <sstream>
+#include<vector>
+using namespace std;
+
+int grid[16][16];
+
+int R, C;
+
+vector<int> v, p;
+
+int DP(int j) {
+	if (j >= (int) v.size())
+		return 0;
+
+	int c1 = v[j] + DP(j + 2);
+	int c2 = DP(j + 1);
+
+	return max(c1, c2);
+}
+
+int main() {
+
+	//  freopen("in.in", "rt", stdin);
+	//  freopen("out.out", "wt", stdout);
+	string str;
+	R = 0;
+	while (getline(cin, str)) {
+		if (str.empty()) {
+
+			for (int i = 0; i < p.size(); i++)
+				cout << p[i] << " ";
+			cout << endl;
+
+			v = p;
+			cout << DP(0) << endl;
+
+			R = 0;
+		} else {
+			C = 0;
+			stringstream ss(str);
+			while (ss >> grid[R][C])
+				C++;
+			R++;
+		}
+	}
+
+	return 0;
+}
+

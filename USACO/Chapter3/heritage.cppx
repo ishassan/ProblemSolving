@@ -1,0 +1,100 @@
+/*
+ ID: tito_911
+ PROG: heritage
+ LANG: C++
+ */
+/*
+ *	E-Mail : khaled.samy@fci-cu.edu.eg
+ *	TopCoder Handle : Khaled91
+ *	Another buggy code by Khaled Samy ;)
+ */
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <bitset>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+#include <valarray>
+using namespace std;
+#define PB                      push_back
+#define MP                      make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define SZ(v)					(int)v.size()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n) 		        for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<double> vd;
+typedef vector<vi> vvi;
+typedef vector<vd> vvd;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+const int OO = (int) 2e9;
+const double PI = 2 * acos(0);
+const double EPS = 1e-9;
+
+int dcmp(double a, double b) {
+	return fabs(a - b) <= EPS ? 0 : a > b ? 1 : 2;
+}
+
+int DI[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+int DJ[] = { 0, 1, 0, -1, 1, -1, 1, -1 };
+
+struct node {
+	node * left, *right;
+	char root;
+	node() {
+		memset(this, 0, sizeof(*this));
+	}
+
+};
+node * build(string in, string pre) {
+
+	loop(i,SZ(pre)) {
+		int x = in.find(pre[i]);
+		if (x != -1) {
+			node * ret = new node();
+			ret->root = pre[i];
+			ret->left = build(in.substr(0, x), pre.substr(i + 1));
+			ret->right = build(in.substr(x + 1), pre.substr(i + 1));
+			return ret;
+		}
+	}
+	return 0;
+}
+
+void print(node * n) {
+	if (!n)
+		return;
+	print(n->left);
+	print(n->right);
+	cout << n->root;
+}
+int main() {
+	freopen("heritage.in","rt",stdin);
+	freopen("heritage.out","wt",stdout);
+	string in, pre;
+	cin >> in >> pre;
+	print(build(in, pre));
+	cout << endl;
+	return 0;
+}

@@ -1,0 +1,168 @@
+/*
+TASK: cowtour
+LANG: C++
+*/
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<map>
+#include<set>
+#include<algorithm>
+#include<cmath>
+#include<sstream>
+#include<deque>
+#include<stack>
+#include<string>
+#include<cstring>
+
+using namespace std;
+
+#define eps 1e-12
+#define oo (int)1e9
+#define foreach(i,c) for(__typeof((c).begin()) i = (c).begin() ; i != (c).end() ; i++)
+#define MAX 151
+
+struct disjoint_sets
+{
+	disjoint_sets()
+	{
+		clear();
+	}
+
+	disjoint_sets(int n)
+	{
+		componentsNum = size = n;
+		parent = vector<int>(n);
+		rank = vector<int>(n,0);
+
+		for( int i = 0 ; i < n ; i++ )
+			parent[i] = i;
+	}
+
+	void clear()
+	{
+		componentsNum = size = 0;
+		parent.clear();
+		rank.clear();
+	}
+
+	int find(int x)
+	{
+		return (parent[x] == x ? x : parent[x] = find(parent[x]));
+	}
+
+	void join(int x,int y)
+	{
+		int parent1 = find(x);
+		int parent2 = find(y);
+
+		if( parent1 == parent2 )
+			return;
+
+		if( rank[parent1] == rank[parent2] )
+			rank[parent1]++;
+
+		if( rank[parent1] < rank[parent2] )
+			swap(parent1,parent2);
+
+		parent[parent2] = parent1;
+		componentsNum--;
+	}
+
+	vector<int> parent;
+	vector<int> rank;
+	int size;
+	int componentsNum;
+};
+
+double g[MAX][MAX];
+int n;
+
+void warshall()
+{
+	for( int k = 0 ; k < n ; k++ )
+		for( int i = 0 ; i < n ; i++ )
+			for( int j = 0 ; j < n ; j++ )
+				if( g[i][k] + g[k][j] < g[i][j] )
+					g[i][j] = g[i][k] + g[k][j];
+
+}
+
+double x[MAX];
+double y[MAX];
+
+double farest[MAX];
+double diameter[MAX];
+
+int main()
+{
+	#ifndef ONLINE_JUDGE
+	freopen("cowtour.in", "rt", stdin);
+	freopen("cowtour.out", "w", stdout);
+	#endif
+
+	scanf("%d",&n);
+
+	for( int i = 0 ; i < n ; i++ )
+		fill(g[i],g[i]+n,oo);
+
+	for( int i = 0 ; i < n ;i++ )
+		scanf("%lf%lf",x+i,y+i);
+
+	char c;
+
+	disjoint_sets ds(n);
+
+	for( int i = 0 ; i < n ; i++ )
+	{
+	     g[i][i] = 0;
+		for( int j = 0 ; j < n ; j++ )
+		{
+			scanf(" %c",&c);
+
+			if( c == '1' )
+			{
+				g[i][j] = g[j][i] = hypot(x[i]-x[j],y[i]-y[j]);
+				ds.join(i,j);
+			}
+		}
+	}
+
+
+	warshall();
+
+	for( int i = 0 ; i < n ; i++ )
+	{
+		for( int j = 0 ; j < n ; j++ )
+		{
+			if( g[i][j] < oo )
+			{
+				farest[i] = max(farest[i],g[i][j]);
+				diameter[ds.find(i)] = max(diameter[ds.find(i)],g[i][j]);
+			}
+		}
+	}
+
+	double res = oo;
+
+	for( int i = 0 ; i < n ; i++ )
+	{
+		for( int j = 0 ; j < n ; j++ )
+		{
+			double temp = 0;
+
+			if( ds.find(i) == ds.find(j) )
+				continue;
+
+			temp = max(temp,farest[i]+hypot(x[i]-x[j],y[i]-y[j])+farest[j]);
+			temp = max(temp,diameter[ds.find(i)]);
+			temp = max(temp,diameter[ds.find(j)]);
+
+			res = min(res,temp);
+		}
+	}
+
+	printf("%.6lf\n",res);
+
+	return 0;
+}

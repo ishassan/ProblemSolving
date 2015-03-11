@@ -1,0 +1,117 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+#include <complex>
+
+using namespace std;
+
+#define pb push_back
+#define all(v) v.begin(),v.end()
+#define sz size()
+#define rep(i,s,m) for(int i=s;i<m;i++)
+#define mem(a,b) memset(a,b,sizeof(a))
+#define mp make_pair
+#define PI = (2.0 * acos(0.0));
+typedef stringstream ss;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+typedef vector<string> vs;
+typedef vector<int> vi;
+typedef vector<vector<int> > vii;
+typedef long long ll;
+#define OO ((int)1e9)
+
+int dx[] = { 0, -1, 0, 1, -1, -1, 1, 1 };
+int dy[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+string s;
+pair<int, int> add(pair<int, int> p1, pair<int, int> p2) {
+	if (p1.first == 0)
+		return p2;
+	if (p2.first == 0)
+		return p1;
+	int x = p1.first * p2.second;
+	int y = p1.second * p2.first;
+	x += y;
+	int denum = p1.second * p2.second;
+	int dvd = __gcd(x, denum);
+	return make_pair(x / dvd, denum / dvd);
+}
+
+pair<int, int> getInt(int& ind) {
+	pair<int, int> x = make_pair(0, 0);
+	while (s[ind] >= '0' && s[ind] <= '9')
+		x.first *= 10, x.first += s[ind] - '0', ind++;
+	ind++;
+	while (s[ind] >= '0' && s[ind] <= '9')
+		x.second *= 10, x.second += s[ind] - '0', ind++;
+	//ind--;
+	return x;
+}
+
+pair<int, int> calc(int& ind) {
+	pair<int, int> cur = make_pair(0, 0);
+	bool flag = false;
+
+	while (ind < s.size()) {
+		if (s[ind] == ' ' || s[ind] == '&') {
+			ind++;
+			continue;
+		}
+		else if (s[ind] == ')') {
+			ind++;
+			if (flag)
+				swap(cur.first, cur.second);
+			return cur;
+		}
+		else if (s[ind] == '(') {
+			ind++;
+			pair<int, int> x = calc(ind);
+			if (flag)
+				swap(x.first, x.second);
+			cur = add(cur, x);
+		}
+		else if (s[ind] == '|') {
+			ind++;
+			if (!flag)
+				swap(cur.first, cur.second), flag = true;
+		}
+		else if (s[ind] >= '0' && s[ind] <= '9') {
+			pair<int, int> x = getInt(ind);
+			if (flag)
+				swap(x.first, x.second);
+			cur = add(cur, x);
+		}
+	}
+	if (flag)
+		swap(cur.first, cur.second);
+
+	return cur;
+}
+
+int main() {
+
+	freopen("F.in", "rt", stdin);
+	while (getline(cin, s)) {
+		int x = 0;
+		pair<int, int> p = calc(x);
+		cout << p.first << "/" << p.second << endl;
+	}
+	return 0;
+}

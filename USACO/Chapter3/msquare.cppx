@@ -1,0 +1,127 @@
+/*
+ ID: tito_911
+ PROG: msquare
+ LANG: C++
+ */
+/*
+ *	E-Mail : khaled.samy@fci-cu.edu.eg
+ *	TopCoder Handle : Khaled91
+ *	Another buggy code by Khaled Samy ;)
+ */
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <bitset>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+using namespace std;
+#define PB                      push_back
+#define MP                      make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define SZ(v)					(int)v.size()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n) 		        for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<double> vd;
+typedef vector<vi> vvi;
+typedef vector<vd> vvd;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+const int OO = (int) 2e9;
+const double PI = 2 * acos(0);
+const double EPS = 1e-9;
+
+int dcmp(double a, double b) {
+	return fabs(a - b) <= EPS ? 0 : a > b ? 1 : 2;
+}
+
+int DI[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+int DJ[] = { 0, 1, 0, -1, 1, -1, 1, -1 };
+
+bitset<1 << 24> vis;
+vector<pair<int, pair<char, int> > > q;
+int arr[3][8] = { { 8, 7, 6, 5, 4, 3, 2, 1 }, { 4, 1, 2, 3, 6, 7, 8, 5 }, { 1,
+		7, 2, 4, 5, 3, 6, 8 } };
+
+int main() {
+	freopen("msquare.in", "rt", stdin);
+	freopen("msquare.out", "wt", stdout);
+	int src = 0, dist = 0, tmp;
+	loop(i,8) {
+		scanf("%d", &tmp);
+		tmp--;
+		src |= (i << (i * 3));
+		dist |= (tmp << (i * 3));
+		loop(j,3)
+			arr[j][i]--;
+	}
+	if (src == dist) {
+		cout << 0 << "\n\n";
+		return 0;
+	}
+
+	q.PB(MP(src, MP(0, -1)));
+	int level = 0, cur = 0;
+	while (cur < (int) SZ(q)) {
+		level++;
+		int sz = SZ(q);
+		while (cur < sz) {
+			int cs = q[cur].first;
+			loop(j,3) {
+				int ns = 0;
+				loop(i,8) {
+					int bit = (cs >> (arr[j][i] * 3)) & 7;
+					ns |= (bit << (i * 3));
+				}
+
+				if (vis[ns])
+					continue;
+
+				vis[ns] = 1;
+
+				q.PB(MP(ns, MP('A' + j, cur)));
+
+				if (ns == dist)
+					goto bara;
+
+			}
+			cur++;
+		}
+	}
+	bara: ;
+	cout << level << endl;
+	string res = "";
+	int c = SZ(q) - 1;
+	while (level--) {
+		res += q[c].second.first;
+		c = q[c].second.second;
+	}
+	reverse(ALL(res));
+	loop(i,SZ(res)) {
+		if ((i + 1) % 60 == 0)
+			cout << endl;
+		cout << res[i];
+	}
+	cout << endl;
+	return 0;
+}

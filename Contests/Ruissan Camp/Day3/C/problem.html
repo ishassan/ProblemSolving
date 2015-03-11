@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1251">
+<TITLE>Macroprocessor</TITLE>
+</HEAD>
+<BODY TEXT="#000000" LINK="#0000ff" VLINK="#800080" BGCOLOR="#ffffff">
+
+<FONT SIZE=6><CENTER>Problem C</CENTER></FONT>
+<FONT SIZE=5><CENTER>Macroprocessor</CENTER>
+</FONT><FONT SIZE=4><P ALIGN="CENTER"></P>
+<CENTER>Input: macropr.in</CENTER>
+<CENTER>Output: macropr.out</CENTER>
+<CENTER>Time Limit: 1 second</CENTER>
+<CENTER>Memory Limit: 64 Megabytes</CENTER>
+</FONT><P><P ALIGN="JUSTIFY">Main macroprocessor function is replacing one symbol groups or lines to another. It is necessary to create macroprocessor for Assembler. In Assembler program one can include macrodefinitions – groups of lines, which begin with <B>macro </B>instruction<B> </B>and end with <B>endm </B>instruction. First word of <B>macro </B>instruction is a macrodefinition name, second word is “macro”. Last part of this instruction is a list of comma separated formal parameters. Lines between <B>macro </B>and <B>endm </B>instructions contain macrodefinition body and can contain formal parameters.</P>
+<P ALIGN="JUSTIFY"></P>
+<P ALIGN="JUSTIFY">Macrodefinition used for macrocalls that is below in the program, than macrodefinition. Macrocall is a line, that contain macrodefinition name and list of comma separated actual parameters. You are to replace macrocall with lines composing body of corresponding macrodefinition with formal parameters replaced corresponding actual parameters.</P>
+<P ALIGN="JUSTIFY"></P>
+There are restrictions to the program:
+
+<UL>
+<LI>There is no macrodefinition in the body of another macrodefinition;</LI>
+<LI>There is no macrocall in the body of macrodefinition;</LI>
+<LI>Macrocall can’t be before corresponding macrodefinition;</LI>
+<LI>Amount and order of actual parameters in the macrocall correspond to amount and order of formal parameters in corresponding <B>macro</B> instruction.</LI>
+<LI><B>end</B> instruction always ends the program.</LI></UL>
+</P>
+<B><FONT SIZE=4>
+<P>Input</P>
+</B></FONT>
+<P>First line contains NT — number of test cases. Each test case consists of a program in Assembler.
+Each line of the program with length L contains one Assembler instruction 
+(1 <FONT FACE="Symbol">&#163;</FONT> L <FONT FACE="Symbol">&#163;</FONT> 80). There are no more
+than 100 lines in one program.
+</P>
+<B><FONT SIZE=4>
+<P>Output</P>
+</B></FONT>
+<P>For each test case, print a line containing the case number (starting with 1). In the next lines
+print transformed program. Macrodefinitions are not included to transformed program, 
+and symbol ';' must be at the beginning of macrocalls. Whitespaces must be keeped in the program.</P>
+
+<TABLE CELLSPACING=0 BORDER=1 CELLPADDING=7 WIDTH=590>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<B><FONT SIZE=4><P>Sample Input</B></FONT></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<B><FONT SIZE=4><P>Sample Output </B></FONT></TD>
+</TR>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<pre>
+1
+incr   macro   arg1,arg2,arg3
+       add     ax,arg1
+       add     bx,arg2
+       add     cx,arg3
+       endm
+       .code
+       incr    x,y,z
+       end 
+</pre></TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<pre>
+Case #1: 
+       .code
+;       incr    x,y,z
+       add     ax,x
+       add     bx,y
+       add     cx,z
+       end
+</pre>
+</td></TR>
+</TABLE>
+</BODY>
+</HTML>

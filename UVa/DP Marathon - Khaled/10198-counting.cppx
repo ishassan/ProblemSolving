@@ -1,0 +1,36 @@
+import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+
+	static BigInteger[] arr = new BigInteger[10001];
+
+	public static BigInteger func(int n) {
+
+		if (n == 1)
+			return BigInteger.valueOf(2);
+
+		if (n == 2)
+			return BigInteger.valueOf(5);
+
+		if (n == 3)
+			return BigInteger.valueOf(13);
+
+		if (arr[n] != BigInteger.valueOf(-1))
+			return arr[n];
+
+		return arr[n] = func(n - 1).multiply(BigInteger.valueOf(2)).add(
+				func(n - 2)).add(func(n - 3));
+	}
+
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		int i;
+		for (int k = 0; k < arr.length; k++)
+			arr[k] = BigInteger.valueOf(-1);
+		while (in.hasNextInt()) {
+			i = in.nextInt();
+			System.out.println(func(i));
+		}
+	}
+}

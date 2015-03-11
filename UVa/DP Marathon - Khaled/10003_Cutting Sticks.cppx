@@ -1,0 +1,53 @@
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+using namespace std;
+int a[51];
+int dp[51][51];
+
+int best(int s, int e) {
+
+	if (s >= e)
+		return 0;
+
+	if (s == e - 1) // we have one peace
+		return 0;
+
+	if (dp[s][e] != -1)
+		return dp[s][e];
+
+	int cut = 1 << 20;
+
+	for (int i = s + 1; i < e; i++)
+		cut = min(cut, (a[e] - a[s]) + best(s, i) + best(i, e));
+
+	return dp[s][e] = cut;
+}
+
+int main() {
+	int l, n;
+	while (scanf("%d", &l) && l != 0) {
+		scanf("%d", &n);
+		a[0] = 0, a[n + 1] = l;
+		for (int i = 1; i <= n; i++)
+			scanf("%d", &a[i]);
+		memset(dp, -1, sizeof dp);
+		printf("The minimum cutting is %d.\n", best(0, n + 1));
+	}
+	return 0;
+}

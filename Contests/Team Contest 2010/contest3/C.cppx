@@ -1,0 +1,92 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+
+using namespace std;
+
+#define pb push_back
+#define all(v) v.begin(),v.end()
+#define sz size()
+#define rep(i,s,m) for(int i=s;i<m;i++)
+#define mem(a,b) memset(a,b,sizeof(a))
+#define mp make_pair
+#define PI = (2.0 * acos(0.0));
+typedef stringstream ss;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+typedef vector<string> vs;
+typedef vector<int> vi;
+typedef vector<vector<int> > vii;
+typedef long long ll;
+#define OO ((int)1e9)
+
+int dx[] = { 0, -1, 0, 1, -1, -1, 1, 1 };
+int dy[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+
+int progSize[1001];
+string progDulls[1001];
+int dullsSize[27];
+int dulls[27];
+
+int main() {
+
+	freopen("dull.in", "rt", stdin);
+
+	int N, P, S, x;
+
+	while (cin >> N && N) {
+		cin >> P >> S;
+
+		int mem = 0, maxM = 0;
+		memset(dulls, 0, sizeof(dulls));
+
+		for (int i = 0; i < N; i++)
+			cin >> dullsSize[i];
+		for (int i = 0; i < P; i++)
+			cin >> progSize[i] >> progDulls[i];
+		for (int i = 0; i < S; i++) {
+			cin >> x;
+			if (x < 0) {
+				x *= -1;
+				x--;
+				string dull = progDulls[x];
+				mem -= progSize[x];
+				for (int j = 0; j < dull.size(); j++) {
+					dulls[dull[j] - 'A']--;
+					if (!dulls[dull[j] - 'A'])
+						mem -= dullsSize[dull[j] - 'A'];
+				}
+			} else {
+				x--;
+				string dull = progDulls[x];
+				mem += progSize[x];
+				for (int j = 0; j < dull.size(); j++) {
+					if (!dulls[dull[j] - 'A'])
+						mem += dullsSize[dull[j] - 'A'];
+					dulls[dull[j] - 'A']++;
+				}
+			}
+			maxM = max(mem, maxM);
+
+		}
+		cout << maxM << endl;
+	}
+	return 0;
+}

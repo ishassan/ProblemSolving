@@ -1,0 +1,45 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+string str;
+int memo[1001][1001];
+int dp(int i, int j) {
+
+	if (i >= j)
+		return 0;
+
+	if (memo[i][j] != -1)
+		return memo[i][j];
+
+	int c1 = dp(i + 1, j) + 1;
+	int c2 = dp(i, j - 1) + 1;
+	int c3 = dp(i + 1, j - 1) + (str[i] != str[j]);
+
+	return memo[i][j] = min(c1, min(c2, c3));
+}
+int main() {
+	int tst;
+	cin >> tst;
+	for (int i = 1; i <= tst; i++) {
+		cin >> str;
+		memset(memo, -1, sizeof memo);
+		cout << "Case " << i << ": " << dp(0, str.size() - 1) << endl;
+	}
+	return 0;
+}

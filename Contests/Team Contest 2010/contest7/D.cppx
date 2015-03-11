@@ -1,0 +1,103 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+
+#define sz(x) ((int)(x).size())
+#define sstr stringstream
+typedef long long ll;
+using namespace std;
+
+map<pair<string,bool>, int > dp;
+map<string,vector<string> > m;
+int calc(string a,bool cn)
+{
+	if(sz(m[a])==0)return 0;
+	pair<string,bool> pr = make_pair(a,cn);
+	if(dp.find(pr)!=dp.end())return dp[pr];
+	vector<string> c = m[a];
+	int res= 0;
+	for(int i= 0 ; i < sz(c) ; i++)
+	{
+		int r1=0,r2=0;
+		if(!cn)
+			r1 = calc(c[i],1)+1;
+		r2 = calc(c[i],0);
+		res+=max(r1,r2);
+	}
+	return dp[pr]=res;
+}
+bool eq;
+void build(string a,bool cn)
+{
+	if(sz(m[a])==0)return ;
+	pair<string,bool> pr = make_pair(a,cn);
+	vector<string> c = m[a];
+	for(int i= 0 ; i < sz(c) ; i++)
+	{
+		int r1=0,r2=0;
+		if(!cn)
+			r1 = calc(c[i],1)+1;
+		r2 = calc(c[i],0);
+		if(r1>r2)
+			build(c[i],1);
+		if(r1<r2||cn)
+			build(c[i],0);
+		if(r1==r2&&!cn)
+		{
+			eq=1;
+			return ;
+		}
+
+	}
+
+}
+int main() {
+	freopen("d.in","r",stdin);
+	int n;
+
+	while (cin >> n && n) {
+		m.clear();
+		string bg;
+		eq=0;
+		cin >> bg;
+		--n;
+		string emp, boss;
+		dp.clear();
+		while (n--) {
+			cin >> emp >> boss;
+			m[boss].push_back(emp);
+		}
+		int r1 =calc(bg,1)+1;
+		int r2 = calc(bg,0);
+
+		if(r1==r2)eq = 1;
+		if(r1>r2)
+			build(bg,1);
+		else
+			build(bg,0);
+		cout<<max(r1,r2);
+		if(eq)
+			cout<<" No\n";
+		else cout<<" Yes\n";
+
+
+	}
+	return 0;
+}

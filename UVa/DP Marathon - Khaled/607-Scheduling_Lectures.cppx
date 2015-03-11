@@ -1,0 +1,142 @@
+/*
+ *  E-Mail : khaled.samy@fci-cu.edu.eg
+ *  TopCoder Handle : Khaled91
+ *  Another buggy code by Khaled Samy ;)
+ */
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+using namespace std;
+#define PB                      push_back
+#define MP                      make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n)               for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<double> vd;
+typedef vector<vi> vvi;
+typedef vector<vd> vvd;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+const int OO = (int) 1e9;
+const double PI = 2 * acos(0);
+const double EPS = 1e-9;
+
+int dcmp(double a, double b) {
+	return fabs(a - b) <= EPS ? 0 : a > b ? 1 : 2;
+}
+
+int DI[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+int DJ[] = { 0, 1, 0, -1, 1, -1, 1, -1 };
+
+int ntopics, LecTime, C;
+int topicTime[1001], memo[1001][501], memo2[1001][501];
+
+int calcDI(int T) {
+	if (T == 0)
+		return 0;
+
+	if (T >= 1 && T <= 10)
+		return -C;
+
+	else if (T > 10)
+		return ((T - 10) * (T - 10));
+}
+
+int dp(int idx, int T) {
+
+	if (idx >= ntopics)
+		return 1;
+
+	if (memo[idx][T] != -1)
+		return memo[idx][T];
+
+	int c1 = OO, c2 = OO;
+
+	if (T >= topicTime[idx])
+		c1 = dp(idx + 1, T - topicTime[idx]);
+
+	if (T != LecTime)
+		c2 = dp(idx, LecTime) + 1;
+
+	return memo[idx][T] = min(c1, c2);
+}
+
+int build(int idx, int T) {
+
+	if (idx >= ntopics)
+		return calcDI(T);
+
+	if (memo2[idx][T] != -1)
+		return memo2[idx][T];
+
+	int c1 = OO, c2 = OO, DI = 0;
+
+	/***********************/
+
+	int ans = dp(idx, T);
+
+	if (T >= topicTime[idx])
+		c1 = dp(idx + 1, T - topicTime[idx]);
+
+	if (T != LecTime)
+		c2 = dp(idx, LecTime) + 1;
+
+	/***********************/
+
+	if (ans == c1 && ans != c2)
+		return memo2[idx][T] = build(idx + 1, T - topicTime[idx]);
+
+	else if (ans == c2 && ans != c1)
+		return memo2[idx][T] = DI + calcDI(T) + build(idx, LecTime);
+
+	else if (ans == c1 && ans == c2) {
+		int t1 = build(idx + 1, T - topicTime[idx]);
+		int t2 = build(idx, LecTime) + calcDI(T);
+		return memo2[idx][T] = min(t1, t2);
+	}
+
+	return memo2[idx][T] = DI;
+}
+int main() {
+	int ID = 1, flag = 0;
+	freopen("zin.txt", "rt", stdin);
+	freopen("zout.txt", "wt", stdout);
+	while (scanf("%d", &ntopics) && ntopics) {
+		if (flag)
+			cout << endl;
+		scanf("%d%d", &LecTime, &C);
+		loop(i,ntopics)
+			scanf("%d", &topicTime[i]);
+		CLR(memo,-1);
+		CLR(memo2,-1);
+		cout << "Case " << ID++ << ":" << endl;
+		cout << "Minimum number of lectures: " << dp(0, LecTime) << endl;
+		cout << "Total dissatisfaction index: " << build(0, LecTime) << endl;
+		flag++;
+	}
+
+	return 0;
+}

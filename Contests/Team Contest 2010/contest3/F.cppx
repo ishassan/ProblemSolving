@@ -1,0 +1,75 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+
+#define fo(i,n) for(int i=0; i<n; i++)
+#define foo(i,m,n) for(int i=m; i<n; i++)
+#define foe(i,m,n) for(int i=m; i<=n; i++)
+#define SZ(a) a.size()
+#define be(n) n.begin(),n.end()
+#define rbe(n) n.rbegin(),n.rend()
+#define mp(a,b) make_pair(a,b)
+#define pii pair<int,int>
+#define vi vector<int>
+#define vs vector<string>
+#define sstr stringstream
+typedef long long ll;
+using namespace std;
+
+bool is (char c1,char c2)
+{
+	if(c1=='R')
+	{
+		if(c2=='S') return 1;
+		if(c2=='P') return 0;
+	}
+	else if(c1=='S')
+		{
+			if(c2=='P') return 1;
+			if(c2=='R') return 0;
+		}
+	else if(c1=='P')
+		{
+			if(c2=='R') return 1;
+			if(c2=='S') return 0;
+		}
+}
+int main() {
+    freopen("rps.in","r",stdin);
+
+    string s1,s2;
+    int p1=0,p2;
+    while(cin>>s1>>s2)
+    {
+    	if(s1=="E" && s2=="E") break;
+    	p1=0;
+    	p2=0;
+    	for(int i=0;i<s1.size();++i)
+    	{
+    		if(s1[i]==s2[i]) continue;
+    		if(is(s1[i],s2[i]) )p1++;
+    		else p2++;
+
+    	}
+    	cout<<"P1: "<<p1<<endl;
+    	cout<<"P2: "<<p2<<endl;
+    }
+	return 0;
+}

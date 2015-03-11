@@ -1,0 +1,101 @@
+/*
+ID: tito_911
+PROG: fact4
+LANG: C++
+/*
+ * /*
+ *	E-Mail : khaled.samy@fci-cu.edu.eg
+ *	TopCoder Handle : Khaled91
+ *	Another buggy code by Khaled Samy ;)
+ */
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+using namespace std;
+#define PB                      push_back
+#define MP                      make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n) 		        for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<double> vd;
+typedef vector<vi> vvi;
+typedef vector<vd> vvd;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+const int OO = (int) 2e9;
+const double PI = 2 * acos(0);
+const double EPS = 1e-9;
+
+int dcmp(double a, double b) {
+	return fabs(a - b) <= EPS ? 0 : a > b ? 1 : 2;
+}
+
+int DI[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+int DJ[] = { 0, 1, 0, -1, 1, -1, 1, -1 };
+
+vi prime, prime_pow;
+map<int, int> m;
+
+void f(int num) {
+	prime.clear();
+	prime_pow.clear();
+
+	for (int i = 2, d = 1; i * i <= num; i += d, d = 2) {
+		if (num % i == 0) {
+			prime.PB(i);
+			prime_pow.PB(0);
+			while (num % i == 0)
+				num /= i, prime_pow.back()++;
+		}
+	}
+	if (num > 1)
+		prime.PB(num), prime_pow.PB(1);
+}
+
+int main() {
+	freopen("fact4.in", "rt", stdin);
+	freopen("fact4.out", "wt", stdout);
+	int num;
+	cin >> num;
+	for (int i = 2; i <= num; i++) {
+		f(i);
+		for (int j = 0; j < (int) prime.size(); j++)
+			m[prime[j]] += prime_pow[j];
+	}
+
+	m[2] -= m[5];
+	m[5] = 0;
+	int ret = 1;
+
+	map<int, int>::iterator it;
+	for (it = m.begin(); it != m.end(); it++) {
+		for (int j = 0; j < it->second; j++)
+			ret = (ret * it->first) % 10;
+	}
+
+	cout << ret << endl;
+	return 0;
+}

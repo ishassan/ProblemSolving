@@ -1,0 +1,55 @@
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+using namespace std;
+
+int coins[101];
+int total;
+int n;
+int dp[101][50001];
+
+int C(int idx, int A) {
+
+	if (idx >= n) {
+		int B = total - A;
+		return abs(A - B);
+	}
+
+	if (dp[idx][A] != -1)
+		return dp[idx][A];
+
+	int c1 = C(idx + 1, A + coins[idx]);
+	int c2 = C(idx + 1, A);
+
+	return dp[idx][A] = min(c1, c2);
+}
+int main() {
+	int tst;
+	scanf("%d", &tst);
+	while (tst--) {
+		scanf("%d", &n);
+		total = 0;
+		for (int i = 0; i < n; i++) {
+			scanf("%d", &coins[i]);
+			total += coins[i];
+		}
+		memset(dp, -1, sizeof dp);
+		printf("%d\n", C(0, 0));
+	}
+	return 0;
+}

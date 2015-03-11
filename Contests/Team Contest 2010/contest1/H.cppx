@@ -1,0 +1,83 @@
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <bitset>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+#include <valarray>
+#include <memory.h>
+using namespace std;
+#define PB                      push_back
+#define mp                      make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define SZ(v)					(int)v.size()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n) 		        for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<double> vd;
+typedef vector<vi> vvi;
+typedef vector<vd> vvd;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+vector<pair<pii, pii> > v;
+
+int get(pii p) {
+	for (int i = v.size() - 1; i >= 0; --i) {
+		if (p.first >= v[i].first.first && p.first <= v[i].second.first)
+			if (p.second >= v[i].first.second && p.second <= v[i].second.second)
+				return i + 1;
+	}
+	return -1;
+}
+int main() {
+
+	freopen("H.in", "r", stdin);
+
+	int win, q;
+	int tst = 1;
+	while (cin >> win) {
+		if (win == 0)
+			return 0;
+
+		v.clear();
+		int r, c, w, h;
+		for (int i = 0; i < win; ++i) {
+			cin >> r >> c >> w >> h;
+			v.push_back(mp(mp(r, c), mp(r + h - 1, c + w - 1)));
+		}
+
+		cin >> q;
+		cout << "Desktop " << tst++ << ":\n";
+
+		for (int i = 0; i < q; ++i) {
+			cin >> r >> c;
+			int g = get(mp(r, c));
+			if (g == -1)
+				cout << "background\n";
+			else
+				cout << "window " << g << endl;
+		}
+	}
+
+	return 0;
+}

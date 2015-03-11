@@ -1,0 +1,167 @@
+/*
+ *	E-Mail : khaled.samy@fci-cu.edu.eg
+ *	TopCoder Handle : Khaled91
+ *	Another buggy code by Khaled Samy ;)
+ */
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+using namespace std;
+#define PB                      push_back
+#define MP                      make_pair
+#define ALL(v)                  v.begin(),v.end()
+#define CLR(v, d)               memset(v, d, sizeof(v))
+#define loop(i,n) 		        for(int i=0;i<(int)n;i++)
+#define loop2(i,n,m)            for(int i=n;i<(int)(m);i++)
+
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<string> vs;
+typedef long long ll;
+typedef stringstream SS;
+typedef pair<int, int> pii;
+typedef vector<pii> vpii;
+
+const int OO = (int) 1e9;
+const double PI = 2 * acos(0);
+const double EPS = 1e-9;
+
+int dcmp(double a, double b) {
+	return fabs(a - b) <= EPS ? 0 : a > b ? 1 : 2;
+}
+
+int DI[] = { -1, 0, 1, 0, 1, -1, -1, 1 };
+int DJ[] = { 0, 1, 0, -1, 1, -1, 1, -1 };
+
+int n, m, k;
+int SRC, DIS;
+int graph[52][52];
+int d[52][52];
+int p[52][52];
+int costs[200];
+int path[200];
+int ID;
+int N;
+int memo[52][100001];
+
+void floyd() {
+	for (int k = 0; k < n; k++)
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < n; j++)
+				if (d[i][k] + d[k][j] < d[i][j]) {
+					d[i][j] = d[i][k] + d[k][j];
+					p[i][j] = p[k][j];
+				}
+}
+
+void get_path(int i, int j) {
+	if (i != j)
+		get_path(i, p[i][j]);
+	path[ID++] = j;
+}
+
+int go(int idx, int remCost) {
+
+	if (remCost == 0)
+		return 0;
+
+	if (idx == N)
+		return OO; //N is without last edge
+
+	if (memo[idx][remCost] != -1)
+		return memo[idx][remCost];
+
+	int a = go(idx + 1, remCost);
+
+	int b = OO;
+
+	if (remCost >= (costs[idx] * 2))
+		b = go(idx, remCost - costs[idx] * 2) + 2; // go to next edge and back to myself
+
+	return memo[idx][remCost] = min(a, b);
+}
+
+int main() {
+	int tst;
+	scanf("%d", &tst);
+	while (tst--) {
+		scanf("%d%d", &n, &m);
+		int src, dist, cost;
+
+		// Initialization d Array and p Array //
+		loop(i,n)
+			loop(j,n)
+				d[i][j] = OO, p[i][j] = i;
+
+		loop(i,n)
+			d[i][i] = 0;
+
+		// Reading input //
+		loop(i,m) {
+			scanf("%d%d%d", &src, &dist, &cost);
+			src--, dist--;
+			graph[src][dist] = d[src][dist] = cost;
+			graph[dist][src] = d[dist][src] = cost;
+		}
+
+		floyd();
+
+		// Reading Queries //
+		scanf("%d", &k);
+		loop(i,k) {
+			scanf("%d%d%d", &src, &dist, &cost);
+			src--, dist--;
+			ID = N = 0;
+
+			get_path(src, dist);
+
+			ID--; // 3shan hwa bizwd wa7da ziada asln
+
+			int dirct_cost = d[src][dist];
+			int rem_cost = cost - dirct_cost;
+			if (rem_cost < 0) {
+				printf("No\n");
+				continue;
+			}
+			int dirct_path = ID;
+
+			//cout << dirct_cost << " " << rem_cost << " " << dirct_path << endl;
+
+			loop(j,ID-1)
+				costs[j] = d[path[j]][path[j + 1]]; // put the costs in costs Array
+			N = ID - 1;
+			//			loop(i,N)
+			//				cout << costs[i] << " ";
+			//			cout << endl;
+			//			cout << N << endl;
+
+			CLR(memo,-1);
+			int sol = go(0, rem_cost);
+
+			if (sol == OO)
+				printf("No\n");
+			else
+				printf("Yes %d\n", sol + dirct_path);
+
+		}
+		if (tst > 0)
+			printf("\n");
+	}
+	return 0;
+}

@@ -1,0 +1,143 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+
+#define fo(i,n) for(int i=0; i<n; i++)
+#define foo(i,m,n) for(int i=m; i<n; i++)
+#define foe(i,m,n) for(int i=m; i<=n; i++)
+#define SZ(a) a.size()
+#define be(n) n.begin(),n.end()
+#define rbe(n) n.rbegin(),n.rend()
+#define mp(a,b) make_pair(a,b)
+#define pii pair<int,int>
+#define vi vector<int>
+#define vs vector<string>
+#define sstr stringstream
+typedef long long ll;
+using namespace std;
+map<char, vector<pair<int, string> > > M;
+map<int, int> cap;
+map<int, pair<string, char> > k;
+vector<pair<int, string> > g, d, mid, S;
+vector<string> res;
+vector<pair<int, int> > capt;
+string fun(pair<int, string> p1, char x) {
+	string res, s1;
+	stringstream ss;
+	ss << (p1.first);
+	ss >> s1;
+	res = s1 + " " + p1.second + " " + x;
+	return res;
+}
+int main() {
+	freopen("a.in", "r", stdin);
+	while (1) {
+		M.clear();
+		cap.clear();
+		k.clear();
+		g.clear();
+		d.clear();
+		mid.clear();
+		S.clear();
+		res.clear();
+		capt.clear();
+		string s, t;
+		int n, cnt, n1, n2;
+		string name;
+		char pos;
+		for (int i = 0; i < 22; ++i) {
+			cnt = 0;
+			getline(cin, s);
+			//cout<<s<<endl;
+			if (s == "0")
+				return 0;
+			stringstream ss(s);
+			ss >> n;
+			ss >> name;
+			ss >> pos;
+			k[n] = make_pair(name, pos);
+			M[pos].push_back(make_pair(n, name));
+			while (ss >> t) {
+				for (int i = 0; i < t.size(); ++i)
+					if (t[i] == '-')
+						t[i] = ' ';
+				stringstream tt(t);
+				tt >> n1 >> n2;
+				cnt += ((n2 - n1)+1);
+
+			}
+			cap[n] = cnt;
+
+		}
+		g = M['G'];
+		sort(g.begin(), g.end());
+		d = M['D'];
+		sort(d.begin(), d.end());
+		mid = M['M'];
+		sort(mid.begin(), mid.end());
+		S = M['S'];
+		sort(S.begin(), S.end());
+		getline(cin, s);
+		for (int i = 0; i < s.size(); ++i)
+			if(s[i]=='-')s[i] = ' ';
+		stringstream ss(s);
+		ss >> n;
+		ss >> n1;
+		ss >> n2;
+		if(g.size()==0 || n>d.size() || n1 >mid.size() || n2>S.size())
+		{
+			cout<<"IMPOSSIBLE TO ARRANGE"<<endl<<endl;
+			continue;
+		}
+		res.push_back(fun(g[0], 'G'));
+		//cout<<n1<<endl;
+		capt.push_back(make_pair(cap[g[0].first], g[0].first));
+		for (int i = 0; i < n; ++i) {
+			res.push_back(fun(d[i], 'D'));
+			capt.push_back(make_pair(cap[d[i].first], d[i].first));
+		}
+		for (int i = 0; i < n1; ++i) {
+			res.push_back(fun(mid[i], 'M'));
+			capt.push_back(make_pair(cap[mid[i].first], mid[i].first));
+		}
+		for (int i = 0; i < n2; ++i) {
+			res.push_back(fun(S[i], 'S'));
+			capt.push_back(make_pair(cap[S[i].first], S[i].first));
+
+		}
+		//cout<<capt.size()<<endl;
+
+		sort(capt.rbegin(), capt.rend());
+//		for(int i=0;i<capt.size();++i)
+//		{
+//			cout<<capt[i].first<<" "<<capt[i].second<<endl;
+//		}
+		string cp = fun(make_pair(capt[0].second, k[capt[0].second].first),
+				k[capt[0].second].second);
+		cout<<cp<<endl;
+		for (int i = 0; i < res.size(); ++i) {
+			if (cp != res[i])
+				cout << res[i] << endl;
+		}
+		cout<<endl;
+
+	}
+	return 0;
+}

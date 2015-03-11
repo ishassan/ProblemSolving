@@ -1,0 +1,59 @@
+#include <cstring>
+#include <string.h>
+#include <map>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <complex>
+#include <list>
+
+using namespace std;
+int n, k;
+int memo[1 << 13][100];
+
+int how_many(int idx, int mask) {
+	int ret = 0;
+
+	for (int i = 1; i <= n; i++)
+		if ((mask & (1 << i)))
+			if (i > idx)
+				ret++;
+	return ret;
+}
+
+int dp(int idx, int mask, int remInv) {
+
+	if (idx == n)
+		return (remInv == 0);
+
+	if (memo[mask][remInv] != -1)
+		return memo[mask][remInv];
+
+	int ret = 0;
+
+	for (int i = 1; i <= n; i++)
+		if ((mask & (1 << i)) == 0)
+			ret += dp(idx + 1, mask | (1 << i), remInv - how_many(i, mask));
+
+	return memo[mask][remInv] = ret;
+}
+int main() {
+	int tst;
+	scanf("%d", &tst);
+	while (tst--) {
+		scanf("%d %d", &n, &k);
+		memset(memo, -1, sizeof memo);
+		printf("%d\n", dp(0, 0, k));
+	}
+	return 0;
+}
